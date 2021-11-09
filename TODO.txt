@@ -1,0 +1,12 @@
+X Create an instance of the game manager
+X Create a two person game
+
+## Two person game
+X holdings=[2, 0]
+X holdings=[2, 0], guesses=[3, 2]
+X [A, B] {[2, 0], [3, 2]} -> A loses
+X [A, B] {[2, 0], [2, 3]} -> B loses
+X Two person game that goes on for two rounds
+    [A, B] [ {[1, 0], [2, 3]}, {[2, 2], [4, 0]} ] -> B loses
+
+## Three person game
