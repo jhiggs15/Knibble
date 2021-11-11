@@ -45,6 +45,7 @@ public class KnibbleGameManager
      */
     public void enterHoldings(List<Integer> coins)
     {
+        // sums all values in the list
         this.coinTotal = coins.stream().reduce(0, (total, current) -> total + current);
     }
     
@@ -58,7 +59,6 @@ public class KnibbleGameManager
     public void enterGuesses(List<Integer> guesses)
     {
         this.guesses = guesses;
-        // TODO
     }
     
     /**
@@ -67,11 +67,42 @@ public class KnibbleGameManager
      *  "X loses" if player X is the last player in the
      *  game, and "" if there is no
      */
-    public String playRound()
-    {
-        if(coinTotal == guesses.get(0)) return players.get(1) + " loses";
-        else if (coinTotal == guesses.get(1)) return players.get(0) + " loses";
+    public String playRound() {
+
+        int player = 0; // index of player in players
+        for(Integer guess : guesses)
+        {
+            if(guessIsCorrect(guess))
+            {
+                String result = getResult(player);
+                players.remove(player);
+                return result;
+            }
+            player++;
+        }
 
         return "";
     }
+
+    /**
+     * Determine if a guess is correct.
+     * Makes code more readable
+     * @param guess a guess of the number of chips in all players hands
+     * @return
+     */
+    protected boolean guessIsCorrect(int guess){ return guess == coinTotal; }
+
+    /**
+     * Gets the result of a game given a guess is correct
+     * @param playerThatGuessedCorrectly the index in players of the player that guessed correctly
+     * @return
+     */
+    protected String getResult(int playerThatGuessedCorrectly)
+    {
+        if(players.size() == 2) // if there are only two players and there has been a correct guess a player loses
+            return players.get(1 - playerThatGuessedCorrectly) + " loses";
+        else // otherwise a player has won
+            return players.get(playerThatGuessedCorrectly) + " wins";
+    }
+
 }

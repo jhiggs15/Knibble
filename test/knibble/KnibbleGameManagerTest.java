@@ -77,6 +77,14 @@ class KnibbleGameManagerTest
         }
         assertEquals(expected.get(expected.size() - 1), result);
     }
+
+    @ParameterizedTest
+    @MethodSource("getResultProvider")
+    void guessIsCorrect(List<String>players, String result, int playerIndex)
+    {
+        KnibbleGameManager manager = new KnibbleGameManager(players);
+        assertEquals(manager.getResult(playerIndex), result);
+    }
     
     /**************************** Providers ****************************/
     static Stream<Arguments> gameProvider()
@@ -91,8 +99,30 @@ class KnibbleGameManagerTest
             arguments(makePlayers("A", "B"), makeRoundResults("", "B loses"), makeRoundInputs(
                     new RoundInput(makeHoldings(1, 0), makeGuesses(2, 3)),
                     new RoundInput(makeHoldings(2, 2), makeGuesses(4,1))
+            )),
+            arguments(makePlayers("A", "B", "C"), makeRoundResults("A wins", "C loses"), makeRoundInputs(
+                    new RoundInput(makeHoldings(2, 1, 0), makeGuesses(3, 1, 2)),
+                    new RoundInput(makeHoldings(3, 3), makeGuesses(6, 3))
+            )),
+            arguments(makePlayers("A", "B", "C"), makeRoundResults("", "", "", "", "A wins", "", "", "B loses"), makeRoundInputs(
+                    new RoundInput(makeHoldings(1, 2, 1), makeGuesses(2, 3, 1)),
+                    new RoundInput(makeHoldings(2, 1, 2), makeGuesses(2, 3, 4)),
+                    new RoundInput(makeHoldings(1, 2, 1), makeGuesses(2, 3, 1)),
+                    new RoundInput(makeHoldings(2, 1, 2), makeGuesses(2, 3, 4)),
+                    new RoundInput(makeHoldings(1, 0, 0), makeGuesses(1, 0, 2)),
+                    new RoundInput(makeHoldings(2, 1), makeGuesses(2, 1)),
+                    new RoundInput(makeHoldings(2, 2), makeGuesses(2, 2)),
+                    new RoundInput(makeHoldings(0, 3), makeGuesses(0, 3))
             ))
 
+        );
+    }
+
+    static Stream<Arguments> getResultProvider()
+    {
+        return Stream.of(
+                arguments(makePlayers("A", "B"), makeResult("B", false), 0),
+                arguments(makePlayers("A", "B", "C", "D"), makeResult("A", true), 0)
 
         );
     }
@@ -118,9 +148,18 @@ class KnibbleGameManagerTest
         return new ArrayList<>(Arrays.asList(inputs));
     }
 
-    static List<String> makeRoundResults(String... roundsResults)
+    static List<String> makeRoundResults(String... roundsResults) { return new ArrayList<>(Arrays.asList(roundsResults)); }
+
+    /**
+     *
+     * @param player The index that corresponds to the player in the players arraylist
+     * @param hasWon True if the player has won and False if they have lost
+     * @return the string representing the result of a round
+     */
+    static String makeResult(String player, boolean hasWon)
     {
-        return new ArrayList<>(Arrays.asList(roundsResults));
+        if(hasWon) return player + " wins";
+        else return player + " loses";
     }
 
 }
