@@ -100,11 +100,11 @@ class KnibbleGameManagerTest
                         new RoundInput(makeHoldings(1, 0), makeGuesses(2, 3)),
                         new RoundInput(makeHoldings(2, 2), makeGuesses(4,1))
                 )),
-                arguments(makePlayers("A", "B", "C"), makeRoundResults("A wins", "C loses"), makeRoundInputs(
+                arguments(makePlayers("A", "B", "C"), makeRoundResults("A wins round", "C loses"), makeRoundInputs(
                         new RoundInput(makeHoldings(2, 1, 0), makeGuesses(3, 1, 2)),
                         new RoundInput(makeHoldings(3, 3), makeGuesses(6, 3))
                 )),
-                arguments(makePlayers("A", "B", "C"), makeRoundResults("", "", "", "", "C wins", "", "", "A loses"), makeRoundInputs(
+                arguments(makePlayers("A", "B", "C"), makeRoundResults("", "", "", "", "C wins round", "", "", "A loses"), makeRoundInputs(
                         new RoundInput(makeHoldings(1, 2, 1), makeGuesses(2, 3, 1)),
                         new RoundInput(makeHoldings(2, 1, 2), makeGuesses(2, 3, 4)),
                         new RoundInput(makeHoldings(1, 2, 1), makeGuesses(2, 3, 1)),
@@ -114,7 +114,7 @@ class KnibbleGameManagerTest
                         new RoundInput(makeHoldings(2, 2), makeGuesses(2, 2)),
                         new RoundInput(makeHoldings(0, 3), makeGuesses(0, 3))
                 )),
-                arguments(makePlayers("A", "B", "C"), makeRoundResults("C wins", "", "B loses"), makeRoundInputs(
+                arguments(makePlayers("A", "B", "C"), makeRoundResults("C wins round", "", "B loses"), makeRoundInputs(
                         new RoundInput(makeHoldings(1, 3, 2), makeGuesses(1, 3, 6)),
                         new RoundInput(makeHoldings(2, 2), makeGuesses(2, 2)),
                         new RoundInput(makeHoldings(3, 2), makeGuesses(5, 2))
@@ -163,7 +163,7 @@ class KnibbleGameManagerTest
      */
     static String makeResult(String player, boolean hasWon)
     {
-        if(hasWon) return player + " wins";
+        if(hasWon) return player + " wins round";
         else return player + " loses";
     }
 

@@ -102,7 +102,7 @@ public class KnibbleGameManager
         if(players.size() == 2) // if there are only two players and there has been a correct guess a player loses
             return players.get(1 - playerThatGuessedCorrectly) + " loses";
         else // otherwise a player has won
-            return players.get(playerThatGuessedCorrectly) + " wins";
+            return players.get(playerThatGuessedCorrectly) + " wins round";
     }
 
 }
