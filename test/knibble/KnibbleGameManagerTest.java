@@ -6,7 +6,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Copyright ©2020-21 Gary F. Pollice
  *******************************************************************************/
 
@@ -31,7 +31,7 @@ class KnibbleGameManagerTest
     {
         assertNotNull(new KnibbleGameManager(makePlayers("A", "B")));
     }
-    
+
     @Test
     void enterHoldingsFor2Players()
     {
@@ -39,7 +39,7 @@ class KnibbleGameManagerTest
         manager.enterHoldings(makeHoldings(2, 0));
         assertTrue(true);
     }
-    
+
     @Test
     void enterFirstRoundInfoFor2Players()
     {
@@ -63,7 +63,7 @@ class KnibbleGameManagerTest
             assertEquals(expected.get(index++), result);
         }
     }
-    
+
     @ParameterizedTest
     @MethodSource("gameProvider")
     void validateEndGame(List<String>players, List<String> expected, List<RoundInput> rounds)
@@ -85,35 +85,40 @@ class KnibbleGameManagerTest
         KnibbleGameManager manager = new KnibbleGameManager(players);
         assertEquals(manager.getResult(playerIndex), result);
     }
-    
+
     /**************************** Providers ****************************/
     static Stream<Arguments> gameProvider()
     {
         return Stream.of(
-            arguments(makePlayers("A", "B"), makeRoundResults("A loses"), makeRoundInputs(
-                new RoundInput(makeHoldings(2, 0), makeGuesses(3, 2))
+                arguments(makePlayers("A", "B"), makeRoundResults("A loses"), makeRoundInputs(
+                        new RoundInput(makeHoldings(2, 0), makeGuesses(3, 2))
                 )),
-            arguments(makePlayers("A", "B"), makeRoundResults("B loses"), makeRoundInputs(
-                new RoundInput(makeHoldings(2, 0), makeGuesses(2, 3))
+                arguments(makePlayers("A", "B"), makeRoundResults("B loses"), makeRoundInputs(
+                        new RoundInput(makeHoldings(2, 0), makeGuesses(2, 3))
                 )),
-            arguments(makePlayers("A", "B"), makeRoundResults("", "B loses"), makeRoundInputs(
-                    new RoundInput(makeHoldings(1, 0), makeGuesses(2, 3)),
-                    new RoundInput(makeHoldings(2, 2), makeGuesses(4,1))
-            )),
-            arguments(makePlayers("A", "B", "C"), makeRoundResults("A wins", "C loses"), makeRoundInputs(
-                    new RoundInput(makeHoldings(2, 1, 0), makeGuesses(3, 1, 2)),
-                    new RoundInput(makeHoldings(3, 3), makeGuesses(6, 3))
-            )),
-            arguments(makePlayers("A", "B", "C"), makeRoundResults("", "", "", "", "A wins", "", "", "B loses"), makeRoundInputs(
-                    new RoundInput(makeHoldings(1, 2, 1), makeGuesses(2, 3, 1)),
-                    new RoundInput(makeHoldings(2, 1, 2), makeGuesses(2, 3, 4)),
-                    new RoundInput(makeHoldings(1, 2, 1), makeGuesses(2, 3, 1)),
-                    new RoundInput(makeHoldings(2, 1, 2), makeGuesses(2, 3, 4)),
-                    new RoundInput(makeHoldings(1, 0, 0), makeGuesses(1, 0, 2)),
-                    new RoundInput(makeHoldings(2, 1), makeGuesses(2, 1)),
-                    new RoundInput(makeHoldings(2, 2), makeGuesses(2, 2)),
-                    new RoundInput(makeHoldings(0, 3), makeGuesses(0, 3))
-            ))
+                arguments(makePlayers("A", "B"), makeRoundResults("", "B loses"), makeRoundInputs(
+                        new RoundInput(makeHoldings(1, 0), makeGuesses(2, 3)),
+                        new RoundInput(makeHoldings(2, 2), makeGuesses(4,1))
+                )),
+                arguments(makePlayers("A", "B", "C"), makeRoundResults("A wins", "C loses"), makeRoundInputs(
+                        new RoundInput(makeHoldings(2, 1, 0), makeGuesses(3, 1, 2)),
+                        new RoundInput(makeHoldings(3, 3), makeGuesses(6, 3))
+                )),
+                arguments(makePlayers("A", "B", "C"), makeRoundResults("", "", "", "", "C wins", "", "", "A loses"), makeRoundInputs(
+                        new RoundInput(makeHoldings(1, 2, 1), makeGuesses(2, 3, 1)),
+                        new RoundInput(makeHoldings(2, 1, 2), makeGuesses(2, 3, 4)),
+                        new RoundInput(makeHoldings(1, 2, 1), makeGuesses(2, 3, 1)),
+                        new RoundInput(makeHoldings(2, 1, 2), makeGuesses(2, 3, 4)),
+                        new RoundInput(makeHoldings(1, 0, 0), makeGuesses(2, 0, 1)),
+                        new RoundInput(makeHoldings(2, 1), makeGuesses(2, 1)),
+                        new RoundInput(makeHoldings(2, 2), makeGuesses(2, 2)),
+                        new RoundInput(makeHoldings(0, 3), makeGuesses(0, 3))
+                )),
+                arguments(makePlayers("A", "B", "C"), makeRoundResults("C wins", "", "B loses"), makeRoundInputs(
+                        new RoundInput(makeHoldings(1, 3, 2), makeGuesses(1, 3, 6)),
+                        new RoundInput(makeHoldings(2, 2), makeGuesses(2, 2)),
+                        new RoundInput(makeHoldings(3, 2), makeGuesses(5, 2))
+                ))
 
         );
     }
@@ -126,23 +131,23 @@ class KnibbleGameManagerTest
 
         );
     }
-    
+
     /**************************** Helper Methods ****************************/
     static List<Integer> makeHoldings(Integer... holdings)
     {
         return new ArrayList<>(Arrays.asList(holdings));
     }
-    
+
     static List<Integer> makeGuesses(Integer... guesses)
     {
         return new ArrayList<>(Arrays.asList(guesses));
     }
-    
+
     static List<String> makePlayers(String... players)
     {
         return new ArrayList<>(Arrays.asList(players));
     }
-    
+
     static List<RoundInput> makeRoundInputs(RoundInput... inputs)
     {
         return new ArrayList<>(Arrays.asList(inputs));
@@ -168,7 +173,7 @@ class RoundInput
 {
     final List<Integer> holdings;
     final List<Integer> guesses;
-    
+
     public RoundInput(List<Integer> holdings, List<Integer> guesses)
     {
         this.holdings = holdings;
